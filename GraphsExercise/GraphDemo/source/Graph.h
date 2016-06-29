@@ -15,9 +15,6 @@ public:
 	// List of Nodes
 	// (which container type are you going to use)
 	
-
-public:
-
 	Graph();
 	virtual ~Graph();
 

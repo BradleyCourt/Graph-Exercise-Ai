@@ -72,8 +72,17 @@ void GraphDemo::Update(float deltaTime)
 {
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_D))
 	{	
-		if(sNode && eNode)
+		if (sNode && eNode)
+		{
+			for (auto & node : m_graph->m_list)
+			{
+				node->parent = nullptr;
+				node->gScore = 0;
+				node->hScore = 0;
+				node->fScore = 0;
+			}
 			thepath->FindPathDijkstras(sNode, eNode, outPut);
+		}
 		std::cout << "Dijkstras" << std::endl;
 	}
 
@@ -90,9 +99,7 @@ void GraphDemo::Update(float deltaTime)
 		sNode = nullptr;
 		eNode = nullptr;
 		outPut.clear();
-	
-	//	thepath = nullptr;
-		
+
 		
 	}
 	if (Input::GetSingleton()->WasMouseButtonPressed(0))

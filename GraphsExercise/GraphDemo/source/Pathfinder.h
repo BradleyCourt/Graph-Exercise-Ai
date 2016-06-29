@@ -1,7 +1,7 @@
 #pragma once
-#include "Graph.h"
 #include <list>
 #include "Node.h"
+#include "Graph.h"
 class Pathfinder
 {
 public:

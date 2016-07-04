@@ -10,7 +10,7 @@
 #include "Graph.h"
 #include "Vector2.h"
 #include <string>
-
+#include <limits>
 
 Pathfinder* thepath;
 std::list<Node*>path;
@@ -38,20 +38,20 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	Node *j = m_graph->AddNode(Vector2(300 * graphScale, 100 * graphScale));
 	Node *k = m_graph->AddNode(Vector2(350 * graphScale, 100 * graphScale));
 
-	m_graph->ConnectNodes(a, d, 1);
+	m_graph->ConnectNodes(a, d, a->pos.distance(d->pos));
 
-	m_graph->ConnectNodes(d, b, 1); 
-	m_graph->ConnectNodes(d, c, 1); 
-	m_graph->ConnectNodes(d, h, 1); 
-	m_graph->ConnectNodes(d, e, 1); 
-	m_graph->ConnectNodes(d, f, 1); 
-	m_graph->ConnectNodes(d, g, 1); 
-	m_graph->ConnectNodes(h, i, 1); 
-	m_graph->ConnectNodes(h, j, 1); 
-	m_graph->ConnectNodes(h, k, 1);
+	m_graph->ConnectNodes(d, c, d->pos.distance(c->pos)); 
+	m_graph->ConnectNodes(d, b, d->pos.distance(b->pos)); 
+	m_graph->ConnectNodes(d, h, d->pos.distance(h->pos)); 
+	m_graph->ConnectNodes(d, e, d->pos.distance(e->pos)); 
+	m_graph->ConnectNodes(d, f, d->pos.distance(f->pos)); 
+	m_graph->ConnectNodes(d, g, d->pos.distance(g->pos)); 
+	m_graph->ConnectNodes(h, i, h->pos.distance(i->pos)); 
+	m_graph->ConnectNodes(h, j, h->pos.distance(j->pos)); 
+	m_graph->ConnectNodes(h, k, h->pos.distance(k->pos));
 
-	m_graph->ConnectNodes(h, g, 1);
-	m_graph->ConnectNodes(g, d, 1);
+	m_graph->ConnectNodes(h, g, h->pos.distance(g->pos));
+	m_graph->ConnectNodes(g, d, g->pos.distance(d->pos));
 
 	
 	sNode = nullptr;
@@ -77,7 +77,7 @@ void GraphDemo::Update(float deltaTime)
 			for (auto & node : m_graph->m_list)
 			{
 				node->parent = nullptr;
-				node->gScore = 0;
+				node->gScore = std::numeric_limits<float>::max();
 				node->hScore = 0;
 				node->fScore = 0;
 			}
@@ -87,60 +87,69 @@ void GraphDemo::Update(float deltaTime)
 	}
 
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_A))
-	{
-		if (sNode && eNode)
-			thepath->AStar(sNode, eNode, outPut);
-		std::cout << "AStar" << std::endl;
-	}
-
-	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_H))
-	{
-		std::cout << "Reset" << std::endl;
-		sNode = nullptr;
-		eNode = nullptr;
-		outPut.clear();
-
-		
-	}
-	if (Input::GetSingleton()->WasMouseButtonPressed(0))
-	{
-		int mx, my;
-		Input::GetSingleton()->GetMouseXY(&mx, &my);
-
-		Node* newNode = m_graph->AddNode(Vector2(mx, my));
-
-		for (auto & node : m_graph->m_list)
 		{
-			float dist = node->pos.distance(newNode->pos);
-			if (dist < 100)
+			if (sNode && eNode)
 			{
-				m_graph->ConnectNodes(node, newNode, node->pos.distance(newNode->pos));
+				for (auto & node : m_graph->m_list)
+				{
+					node->parent = nullptr;
+					node->gScore = std::numeric_limits<float>::max();
+					node->hScore = 0;
+					node->fScore = 0;
+				}
+				thepath->AStar(sNode, eNode, outPut);
 			}
+			std::cout << "AStar" << std::endl;
 		}
 
-
-		// Handle mouse input here
-	}
-
-	if (Input::GetSingleton()->WasMouseButtonPressed(1))
-	{
-		int mx, my;
-		Input::GetSingleton()->GetMouseXY(&mx, &my);
-		if (!sNode)
+		if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_R))
 		{
-			sNode = m_graph->FindNode(Vector2(mx, my));
-		}
-		else if (!eNode)
-		{
-			eNode = m_graph->FindNode(Vector2(mx, my));
-		}
-		else if (sNode && eNode )
-		{
+			std::cout << "Reset" << std::endl;
 			sNode = nullptr;
 			eNode = nullptr;
+			outPut.clear();
+
+
+		}
+		if (Input::GetSingleton()->WasMouseButtonPressed(0))
+		{
+			int mx, my;
+			Input::GetSingleton()->GetMouseXY(&mx, &my);
+
+			Node* newNode = m_graph->AddNode(Vector2(mx, my));
+
+			for (auto & node : m_graph->m_list)
+			{
+				float dist = node->pos.distance(newNode->pos);
+				if (dist < 100)
+				{
+					m_graph->ConnectNodes(node, newNode, node->pos.distance(newNode->pos));
+				}
+			}
+
+
+			// Handle mouse input here
+		}
+
+		if (Input::GetSingleton()->WasMouseButtonPressed(1))
+		{
+			int mx, my;
+			Input::GetSingleton()->GetMouseXY(&mx, &my);
+			if (!sNode)
+			{
+				sNode = m_graph->FindNode(Vector2(mx, my));
+			}
+			else if (!eNode)
+			{
+				eNode = m_graph->FindNode(Vector2(mx, my));
+			}
+			else if (sNode && eNode)
+			{
+				sNode = nullptr;
+				eNode = nullptr;
+			}
 		}
 	}
-}
 	
 
 void GraphDemo::Draw()

@@ -13,8 +13,7 @@ public:
 
 	void FindPathDijkstras(Node * startNode, Node* potentialEndNodes, std::list<Node*>& outPut);
 
-	void AStar(Node * startNode, Node * potentialEndNodes, std::list<Node*>& outPut);
-
+	void AStar(Node * startNode, Node * endNode, std::list<Node*>& outPut);
 
 
 

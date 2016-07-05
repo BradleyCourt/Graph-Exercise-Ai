@@ -12,6 +12,8 @@ class SpriteBatch;
 class Graph;
 class Texture;
 class Node;
+class Agent;
+
 
 class GraphDemo : public Application
 {
@@ -36,6 +38,8 @@ protected:
 	
 	Texture* crate;
 	std::list<Node*> outPut;
+
+	Agent* agent;
 
 	Node* sNode;
 	Node* eNode;

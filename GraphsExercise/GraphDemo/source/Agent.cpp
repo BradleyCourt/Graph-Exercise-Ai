@@ -1,16 +1,15 @@
 #include "Agent.h"
 #include "IBehaviour.h"
-#include "KeyboardController.h"
 
 
-void Agent::addBehaviourList()
+void Agent::addBehaviourList(IBehaviour* behaviour)
 {
-	for (unsigned int i = m_BehaviourList.size(); i >= 0; i--)
+	/*for (unsigned int i = m_BehaviourList.size(); i >= 0; i--)
 	{
 		delete m_BehaviourList.at(i);
 		m_BehaviourList.pop_back();
-	}
-	m_BehaviourList.push_back(new KeyboardController());
+	}*/
+	m_BehaviourList.push_back(behaviour);
 }
 
 
@@ -30,14 +29,21 @@ Agent::~Agent()
 {
 }
 
+
+
 void Agent::setPos(Vector3 pos)
 {
 	m_pos = pos;
 }
 
-void Agent::setVel(Vector3 vel)
+Vector3 Agent::getPos()
 {
-	m_vel = vel;
+	return m_pos;
+}
+
+void Agent::setVel(Vector3)
+{
+	m_vel = m_force - m_vel;
 }
 
 void Agent::setAccel(Vector3 accel)
@@ -45,15 +51,19 @@ void Agent::setAccel(Vector3 accel)
 	m_accel = accel;
 }
 
-void Agent::setForce(Vector3 force)
+void Agent::addForce(Vector3 force)
 {
-	m_force = force;
+	m_force = m_force + force;
 }
 
 void Agent::update(float dTime)
 {
 	for (unsigned int i = 0; i < m_BehaviourList.size(); i++)
 	{
-		(m_BehaviourList.at(i))->update(this, dTime);
+		m_BehaviourList[i]->update(this, dTime);
 	}
+
+	m_vel = m_force - m_vel;
+
+	m_pos = m_pos + m_vel;
 }

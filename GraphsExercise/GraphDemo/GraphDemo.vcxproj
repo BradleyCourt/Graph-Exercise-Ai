@@ -89,6 +89,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\Agent.cpp" />
     <ClCompile Include="source\Edge.cpp" />
+    <ClCompile Include="source\Force.cpp" />
     <ClCompile Include="source\Graph.cpp" />
     <ClCompile Include="source\GraphDemo.cpp" />
     <ClCompile Include="source\IBehaviour.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="include\GraphDemo.h" />
     <ClInclude Include="source\Agent.h" />
     <ClInclude Include="source\Edge.h" />
+    <ClInclude Include="source\Force.h" />
     <ClInclude Include="source\Graph.h" />
     <ClInclude Include="source\IBehaviour.h" />
     <ClInclude Include="source\KeyboardController.h" />

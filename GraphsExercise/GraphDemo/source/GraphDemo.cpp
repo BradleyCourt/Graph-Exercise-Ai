@@ -11,6 +11,8 @@
 #include "Vector2.h"
 #include <string>
 #include <limits>
+#include "Agent.h"
+#include "KeyboardController.h"
 
 Pathfinder* thepath;
 std::list<Node*>path;
@@ -53,6 +55,8 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph->ConnectNodes(h, g, h->pos.distance(g->pos));
 	m_graph->ConnectNodes(g, d, g->pos.distance(d->pos));
 
+	agent = new Agent();
+	agent->addBehaviourList(new KeyboardController());
 	
 	sNode = nullptr;
 	eNode = nullptr;
@@ -70,7 +74,7 @@ GraphDemo::~GraphDemo()
 
 void GraphDemo::Update(float deltaTime)
 {
-	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_D))
+	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_I))
 	{	
 		if (sNode && eNode)
 		{
@@ -86,7 +90,10 @@ void GraphDemo::Update(float deltaTime)
 		std::cout << "Dijkstras" << std::endl;
 	}
 
-	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_A))
+	agent->update(deltaTime);
+	
+
+	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
 		{
 			if (sNode && eNode)
 			{
@@ -102,7 +109,7 @@ void GraphDemo::Update(float deltaTime)
 			std::cout << "AStar" << std::endl;
 		}
 
-		if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_R))
+		if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_P))
 		{
 			std::cout << "Reset" << std::endl;
 			sNode = nullptr;
@@ -157,8 +164,10 @@ void GraphDemo::Draw()
 
 	// clear the back buffer
 	ClearScreen();
-
+	
 	m_spritebatch->Begin();
+
+	m_spritebatch->DrawSprite(m_nodeTexture, agent->getPos().m_x, agent->getPos().m_y, 100, 100, 0, 0.5f, 0.5f);
 
 	for (auto i : m_graph->m_list)
 	{

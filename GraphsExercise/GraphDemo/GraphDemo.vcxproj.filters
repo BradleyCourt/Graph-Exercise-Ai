@@ -39,6 +39,9 @@
     <ClCompile Include="source\IBehaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\KeyboardController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Pathfinder.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="source\IBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\KeyboardController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

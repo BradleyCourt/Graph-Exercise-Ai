@@ -7,3 +7,4 @@ public:
 	~IBehaviour();
 	virtual void update(Agent* ptr, float dTime);
 };
+

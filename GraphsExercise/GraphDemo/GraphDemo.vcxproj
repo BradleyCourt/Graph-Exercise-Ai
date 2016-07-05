@@ -92,6 +92,7 @@
     <ClCompile Include="source\Graph.cpp" />
     <ClCompile Include="source\GraphDemo.cpp" />
     <ClCompile Include="source\IBehaviour.cpp" />
+    <ClCompile Include="source\KeyboardController.cpp" />
     <ClCompile Include="source\Node.cpp" />
     <ClCompile Include="source\Pathfinder.cpp" />
   </ItemGroup>
@@ -101,6 +102,7 @@
     <ClInclude Include="source\Edge.h" />
     <ClInclude Include="source\Graph.h" />
     <ClInclude Include="source\IBehaviour.h" />
+    <ClInclude Include="source\KeyboardController.h" />
     <ClInclude Include="source\Node.h" />
     <ClInclude Include="source\Pathfinder.h" />
   </ItemGroup>

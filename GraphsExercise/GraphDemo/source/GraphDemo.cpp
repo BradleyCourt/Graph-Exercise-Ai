@@ -13,6 +13,8 @@
 #include <limits>
 #include "Agent.h"
 #include "KeyboardController.h"
+#include <chrono>
+#include <iostream>
 
 Pathfinder* thepath;
 std::list<Node*>path;
@@ -57,12 +59,18 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 
 	agent = new Agent();
 	agent->addBehaviourList(new KeyboardController());
+	enemy = new Agent();
+	enemy->addBehaviourList(new KeyboardController());
 	
 	sNode = nullptr;
 	eNode = nullptr;
 	m_nodeTexture = new Texture("./Images/nodeTexture.png");
+	m_pinkNodeTexture = new Texture("./Images/pinkNode.png");
 	crate = new Texture("./Images/box0_256.png");
 	m_font = new Font("./Fonts/arial_20px.fnt");
+
+	agent->m_sprite = m_nodeTexture;
+	enemy->m_sprite = m_pinkNodeTexture;
 }
 
 GraphDemo::~GraphDemo()
@@ -91,6 +99,7 @@ void GraphDemo::Update(float deltaTime)
 	}
 
 	agent->update(deltaTime);
+	enemy->update(deltaTime);
 	
 
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
@@ -156,6 +165,35 @@ void GraphDemo::Update(float deltaTime)
 				eNode = nullptr;
 			}
 		}
+
+		agent->count += deltaTime;
+		float dist = (enemy->getPos() - agent->getPos()).magnitude();
+
+		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
+			if (dist <= 50)
+			{
+
+				std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+				Texture* temp;
+				int duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
+				//int difference = agent->count - deltaTime;
+				if (agent->count < 3)
+				{
+					std::cout << "im working" << std::endl;
+				}
+				else
+				{
+					std::cout << "changed" << std::endl;
+					temp = agent->m_sprite;
+					agent->m_sprite = enemy->m_sprite;
+					enemy->m_sprite = temp;
+					agent->count = 0;
+
+				}
+				
+			
+		}
 	}
 	
 
@@ -167,7 +205,8 @@ void GraphDemo::Draw()
 	
 	m_spritebatch->Begin();
 
-	m_spritebatch->DrawSprite(m_nodeTexture, agent->getPos().m_x, agent->getPos().m_y, 100, 100, 0, 0.5f, 0.5f);
+	m_spritebatch->DrawSprite(agent->m_sprite, agent->getPos().m_x, agent->getPos().m_y, 100, 100, 0, 0.5f, 0.5f);
+	m_spritebatch->DrawSprite(enemy->m_sprite, enemy->getPos().m_x, enemy->getPos().m_y, 50, 50, 0, 0.5f, 0.5f);
 
 	for (auto i : m_graph->m_list)
 	{

@@ -89,24 +89,26 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\Agent.cpp" />
     <ClCompile Include="source\Edge.cpp" />
-    <ClCompile Include="source\Force.cpp" />
+    <ClCompile Include="source\Flee.cpp" />
     <ClCompile Include="source\Graph.cpp" />
     <ClCompile Include="source\GraphDemo.cpp" />
     <ClCompile Include="source\IBehaviour.cpp" />
     <ClCompile Include="source\KeyboardController.cpp" />
     <ClCompile Include="source\Node.cpp" />
     <ClCompile Include="source\Pathfinder.cpp" />
+    <ClCompile Include="source\Seek.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GraphDemo.h" />
     <ClInclude Include="source\Agent.h" />
     <ClInclude Include="source\Edge.h" />
-    <ClInclude Include="source\Force.h" />
+    <ClInclude Include="source\Flee.h" />
     <ClInclude Include="source\Graph.h" />
     <ClInclude Include="source\IBehaviour.h" />
     <ClInclude Include="source\KeyboardController.h" />
     <ClInclude Include="source\Node.h" />
     <ClInclude Include="source\Pathfinder.h" />
+    <ClInclude Include="source\Seek.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathLib\MathLib.vcxproj">

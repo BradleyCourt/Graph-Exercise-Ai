@@ -1,6 +1,6 @@
 #include "Agent.h"
 #include "IBehaviour.h"
-
+#include "Vector3.h"
 
 void Agent::addBehaviourList(IBehaviour* behaviour)
 {
@@ -67,3 +67,5 @@ void Agent::update(float dTime)
 
 	m_pos = m_pos + m_vel;
 }
+
+

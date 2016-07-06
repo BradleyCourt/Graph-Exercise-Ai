@@ -17,7 +17,7 @@ public:
 	Agent();
 	Agent(Vector3 pos, Vector3 vel, Vector3 accel, Vector3 force);
 	virtual ~Agent();
-
+	float count = 0;
 	void addBehaviourList(IBehaviour* behaviour);
 	void setPos(Vector3 pos);
 	Vector3 getPos();
@@ -27,5 +27,7 @@ public:
 	Texture* m_sprite;
 	Matrix3 transform;
 	void update(float dTime);
+	
+	void updateEnemy(float dTime);
 
 };

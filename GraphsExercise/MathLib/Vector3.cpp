@@ -77,7 +77,7 @@ Vector3 Vector3::cross(const Vector3 & vecA)
 
 float Vector3::magnitude()
 {
-	return sqrt(pow(m_x, 2) + pow(m_y, 2) + pow(m_z, 2));
+	return sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
 }
 
 void Vector3::normalise()

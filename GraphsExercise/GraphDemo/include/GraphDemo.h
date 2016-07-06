@@ -35,11 +35,13 @@ protected:
 	Graph *m_graph;
 	Texture *m_nodeTexture;
 	Font* m_font;
+	Texture* m_pinkNodeTexture;
 	
 	Texture* crate;
 	std::list<Node*> outPut;
 
 	Agent* agent;
+	Agent* enemy;
 
 	Node* sNode;
 	Node* eNode;

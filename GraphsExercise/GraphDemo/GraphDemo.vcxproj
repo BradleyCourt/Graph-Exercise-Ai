@@ -61,7 +61,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)AIE_GL\bin\;$(SolutionDir)libraries\glew\lib\Release\Win32\;$(SolutionDir)libraries\glfw3\lib-vc2015\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)AIE_GL\bin\;$(SolutionDir)libraries\glew\lib\Win32\;$(SolutionDir)libraries\glfw3\lib-vc2015\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OpenGL32.lib;AIE_GL_d.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

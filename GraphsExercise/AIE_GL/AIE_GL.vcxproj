@@ -67,7 +67,7 @@
       <AdditionalDependencies>OpenGL32.lib;glew32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)libraries\glew\lib\Release\Win32\;$(SolutionDir)libraries\glfw3\lib-vc2015\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libraries\glew\lib\Win32\;$(SolutionDir)libraries\glfw3\lib-vc2015\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

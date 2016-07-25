@@ -8,7 +8,8 @@ Node::Node()
 	gScore = 0;
 	parent = nullptr;
 	hScore = 0;
-	fScore = 0;
+	fScore = 0;
+
 }
 
 Node::Node(Vector2 a_pos)

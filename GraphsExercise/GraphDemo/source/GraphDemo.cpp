@@ -64,9 +64,10 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	
 	sNode = nullptr;
 	eNode = nullptr;
-	m_nodeTexture = new Texture("./Images/nodeTexture.png");
-	m_pinkNodeTexture = new Texture("./Images/pinkNode.png");
+
 	crate = new Texture("./Images/box0_256.png");
+	m_pinkNodeTexture = new Texture("./Images/pinkNode.png");
+	m_nodeTexture = new Texture("./Images/nodeTexture.png");
 	m_font = new Font("./Fonts/arial_20px.fnt");
 
 	agent->m_sprite = m_nodeTexture;

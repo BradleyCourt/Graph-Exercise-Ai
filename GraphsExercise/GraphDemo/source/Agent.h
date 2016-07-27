@@ -27,7 +27,5 @@ public:
 	Texture* m_sprite;
 	Matrix3 transform;
 	void update(float dTime);
-	
-	void updateEnemy(float dTime);
 
 };

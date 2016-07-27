@@ -1,6 +1,6 @@
 #include "Seek.h"
 #include "Node.h"
-
+#include "Graph.h"
 
 Seek::Seek()
 {

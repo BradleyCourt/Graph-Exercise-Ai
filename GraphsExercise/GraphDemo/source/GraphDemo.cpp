@@ -13,8 +13,10 @@
 #include <limits>
 #include "Agent.h"
 #include "KeyboardController.h"
+#include "ArrowKeyController.h"
 #include <chrono>
 #include <iostream>
+#include <math.h>
 
 Pathfinder* thepath;
 std::list<Node*>path;
@@ -59,8 +61,9 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 
 	agent = new Agent();
 	agent->addBehaviourList(new KeyboardController());
+	agent->setPos(Vector3(100, 100, 0));
 	enemy = new Agent();
-	enemy->addBehaviourList(new KeyboardController());
+	enemy->addBehaviourList(new ArrowKeyController());
 	
 	sNode = nullptr;
 	eNode = nullptr;
@@ -103,7 +106,7 @@ void GraphDemo::Update(float deltaTime)
 	enemy->update(deltaTime);
 	
 
-	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
+		if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
 		{
 			if (sNode && eNode)
 			{
@@ -168,17 +171,19 @@ void GraphDemo::Update(float deltaTime)
 		}
 
 		agent->count += deltaTime;
-		float dist = (enemy->getPos() - agent->getPos()).magnitude();
+		float dist = sqrt(powf(agent->getPos().m_y - enemy->getPos().m_y, 2) + powf(agent->getPos().m_x - enemy->getPos().m_x, 2));
+		//float dist = (enemy->getPos() - agent->getPos()).magnitude();
 
-		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+		//std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
 			if (dist <= 50)
 			{
 
-				std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+				//std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
 				Texture* temp;
-				int duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
+				//int duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
 				//int difference = agent->count - deltaTime;
+				std::cout << "distance: " << dist << std::endl;
 				if (agent->count < 3)
 				{
 					std::cout << "im working" << std::endl;
@@ -206,7 +211,7 @@ void GraphDemo::Draw()
 	
 	m_spritebatch->Begin();
 
-	m_spritebatch->DrawSprite(agent->m_sprite, agent->getPos().m_x, agent->getPos().m_y, 100, 100, 0, 0.5f, 0.5f);
+	m_spritebatch->DrawSprite(agent->m_sprite, agent->getPos().m_x, agent->getPos().m_y, 50, 50, 0, 0.5f, 0.5f);
 	m_spritebatch->DrawSprite(enemy->m_sprite, enemy->getPos().m_x, enemy->getPos().m_y, 50, 50, 0, 0.5f, 0.5f);
 
 	for (auto i : m_graph->m_list)

@@ -11,7 +11,6 @@ public:
 	virtual ~KeyboardController();
 
 	virtual void update(Agent* tempAgent, float dTime);
-	virtual void updateEnemy(Agent* enemy, float dTime);
 
 };
 

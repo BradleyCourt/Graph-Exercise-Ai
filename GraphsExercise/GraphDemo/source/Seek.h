@@ -2,6 +2,7 @@
 #include "IBehaviour.h"
 
 class Node;
+class Graph;
 class Seek : public IBehaviour
 {
 public:

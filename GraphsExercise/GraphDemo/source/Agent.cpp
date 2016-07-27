@@ -22,6 +22,7 @@ Agent::Agent(Vector3 pos, Vector3 vel, Vector3 accel, Vector3 force)
 	m_vel = vel;
 	m_accel = accel;
 	m_force = force;
+	//count = 0;
 }
 
 

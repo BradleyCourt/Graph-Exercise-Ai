@@ -1,11 +1,19 @@
 #pragma once
 #include "Agent.h"
-#include "IBehaviour.h"
-class Sequence : Composite
+#include "Composite.h"
+
+
+class Sequence : public Composite
 {
 public:
 
+	//void Update(Agent);
+
+	BehaviourResult update(Agent* tempAgent, float dTime);
+
 	Sequence();
 	~Sequence();
+
 };
+
 

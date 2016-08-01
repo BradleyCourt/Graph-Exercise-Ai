@@ -1,18 +1,24 @@
 #pragma once
 #include <list>
-class Composite
+#include <vector>
+#include "IBehaviour.h"
+
+class Composite : public IBehaviour
 {
 public:
-	
-	
 
+	Composite();
+	~Composite();
+
+	virtual BehaviourResult update(Agent* tempAgent, float dTime) = 0;
+
+	std::vector<IBehaviour*> m_childBehaviours;
+	
 	//list childBehaviours;
 	//IBehaviour pendingChild : null
 	//func execute(agent) = 0
-	//Composite();
-	//~Composite();
 protected:
-	std::vector<IBehaviour*> m_childBehaviours;
 	IBehaviour* m_pendingChild;
+	IBehaviour* m_currentChild;
 };
 

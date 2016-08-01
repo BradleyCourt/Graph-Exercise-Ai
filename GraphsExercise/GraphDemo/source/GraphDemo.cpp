@@ -17,11 +17,13 @@
 #include <chrono>
 #include <iostream>
 #include <math.h>
+#include "Seek.h"
 
 Pathfinder* thepath;
 std::list<Node*>path;
 Node* firstnode = nullptr;
 Node* secondnode;
+Seek* seek;
 
 GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
@@ -30,7 +32,7 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph = new Graph;
 	Node *a = m_graph->AddNode(Vector2(100, 100)); 
 
-	
+	seek - new Seek();
 	
 	float graphScale = 2.5f;
 	Node *b = m_graph->AddNode(Vector2(150 * graphScale, 100 * graphScale));
@@ -60,10 +62,10 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph->ConnectNodes(g, d, g->pos.distance(d->pos));
 
 	agent = new Agent();
-	agent->addBehaviourList(new KeyboardController());
+//	agent->addBehaviourList(new KeyboardController());
 	agent->setPos(Vector3(100, 100, 0));
 	enemy = new Agent();
-	enemy->addBehaviourList(new ArrowKeyController());
+//	enemy->addBehaviourList(new ArrowKeyController());
 	
 	sNode = nullptr;
 	eNode = nullptr;
@@ -101,6 +103,8 @@ void GraphDemo::Update(float deltaTime)
 		}
 		std::cout << "Dijkstras" << std::endl;
 	}
+
+	agent->addBehaviourList(seek);
 
 	agent->update(deltaTime);
 	enemy->update(deltaTime);

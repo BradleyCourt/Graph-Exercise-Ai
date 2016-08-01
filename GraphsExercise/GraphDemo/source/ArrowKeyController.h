@@ -1,10 +1,9 @@
 #pragma once
 #include "Agent.h"
 #include "Vector3.h"
-#include "IBehaviour.h"
 #include <iostream>
-class ArrowKeyController :
-	public IBehaviour
+class ArrowKeyController
+
 {
 public:
 	ArrowKeyController();

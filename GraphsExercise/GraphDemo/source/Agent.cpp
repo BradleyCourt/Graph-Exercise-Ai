@@ -1,6 +1,8 @@
 #include "Agent.h"
 #include "IBehaviour.h"
 #include "Vector3.h"
+#include "Node.h"
+
 
 void Agent::addBehaviourList(IBehaviour* behaviour)
 {
@@ -57,11 +59,11 @@ void Agent::addForce(Vector3 force)
 	m_force = m_force + force;
 }
 
-void Agent::update(float dTime)
+void Agent::update(std::list<Node*>&path, Agent* tempAgent, Agent* agent, float dTime)
 {
 	for (unsigned int i = 0; i < m_BehaviourList.size(); i++)
 	{
-		m_BehaviourList[i]->update(this, dTime);
+		m_BehaviourList[i]->update(path, this, agent, dTime);
 	}
 
 	m_vel = m_force - m_vel;

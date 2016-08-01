@@ -3,6 +3,7 @@
 
 
 
+
 Vector3::Vector3()
 {
 	m_x = 0;
@@ -15,6 +16,13 @@ Vector3::Vector3(float x, float y, float z)
 	m_x = x;
 	m_y = y;
 	m_z = z;
+}
+
+Vector3::Vector3(Vector2 vector)
+{
+	m_x = vector.m_x;
+	m_y = vector.m_y;
+	m_z = 1;
 }
 
 

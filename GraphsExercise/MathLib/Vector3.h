@@ -1,4 +1,6 @@
 #pragma once
+#include "Vector2.h"
+
 class Vector3
 {
 private:
@@ -7,8 +9,9 @@ public:
 	float m_x, m_y, m_z;
 	Vector3();
 	Vector3(float x, float y, float z);
+	
 	~Vector3();
-
+	Vector3(Vector2 vector);
 	Vector3& operator=(const Vector3& vecA);
 	const bool operator==(const Vector3& vecA);
 	Vector3& operator*(const float f);

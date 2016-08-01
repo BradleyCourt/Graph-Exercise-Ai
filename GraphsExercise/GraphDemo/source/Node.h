@@ -13,7 +13,8 @@ public:
 	float gScore;
 	Node *parent;
 	float hScore;
-	float fScore;
+	float fScore;
+
 
 	std::vector<Edge*> edgeList;
 

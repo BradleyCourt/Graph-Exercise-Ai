@@ -12,6 +12,8 @@ IBehaviour::~IBehaviour()
 {
 }
 
-void IBehaviour::update(Agent * ptr, float dTime)
-{
-}
+//BehaviourResult IBehaviour::returnResult()
+//{
+//	return result;
+//}
+

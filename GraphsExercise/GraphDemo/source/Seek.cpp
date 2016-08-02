@@ -2,55 +2,53 @@
 #include "Node.h"
 #include "Graph.h"
 #include <list>
+#include <vector>
 #include "Agent.h"
 #include "Vector3.h"
 
-int m_index = 0;
+
 Seek::Seek()
 {
 }
+Seek::Seek(Agent* enemy, Graph* g)
+{
+	m_graph = g;
 
+}
 
 Seek::~Seek()
 {
 }
 
 
-BehaviourResult Seek::update(Agent * tempAgent, float dTime)
+BehaviourResult Seek::update(std::list<Node*> path , Agent * pAgent, float deltatime)
 {
-	//Find node closest to target
-
-	//Find path to said node
-
-	//Find next node in path list
-
-	//Move towards that node
-
-	//EXAMPLE:
-	if (true) {
-		//Condition you want to check
-		result = Success;
-	}
-	return Result;
-}
-
-void Seek::update(std::list<Node*> path, Agent * agent, Agent * enemy, float deltatime)
-{
-	if (path.empty() && path.size() > 0)
+	
+	if (!path.empty())
 	{
 		if (m_index < path.size())
 		{
 			std::list<Node*>::iterator it = path.begin();
 			std::advance(it, m_index);
-			if (((enemy->m_pos - (*it)->pos).magnitude() < 5))
+			if (((pAgent->m_pos - (*it)->pos).magnitude() < 5))
+			{				
 				m_index++;
+				std::advance(it, 1);
+				if (m_index == path.size())
+				{
+					BehaviourResult::Success;
+				}
+			}
 
-			Vector3 direction = (Vector3((*it)->pos) - enemy->m_pos) * 1;
+			Vector3 direction = (Vector3((*it)->pos) - pAgent->m_pos) * 1;
 			direction.normalise();
-			enemy->m_pos = enemy->m_pos + (direction * deltatime * 30);
-			return;
+			pAgent->m_pos = pAgent->m_pos + (direction * deltatime * 30);
+			return BehaviourResult::Pending;
 		}
 	}
 	m_index = 0;
+	return BehaviourResult::Failure;
 }
+
+
 // current node?

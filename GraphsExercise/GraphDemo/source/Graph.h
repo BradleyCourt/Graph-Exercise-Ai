@@ -3,6 +3,7 @@
 #include <vector>
 #include "Vector2.h"
 #include <iostream>
+#include <list>
 
 
 class Edge;
@@ -11,7 +12,7 @@ class Graph
 {
 public:
 
-	std::vector<Node*>m_list;
+	std::list<Node*>m_list;
 	// List of Nodes
 	// (which container type are you going to use)
 	

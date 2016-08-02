@@ -8,10 +8,11 @@ class Seek : public IBehaviour
 {
 public:
 	Seek();
+	Seek(Agent* enemy, Graph* g);
 	virtual ~Seek();
 	
-	virtual BehaviourResult update(Agent* tempAgent, float dTime);
-	void Seek::update(std::list<Node*>path, Agent *agent, Agent *enemy, float deltatime);
+	virtual BehaviourResult update(std::list<Node*> path, Agent * pAgent, float deltatime);
+	
 
 protected:
 	Agent* m_target;
@@ -20,5 +21,7 @@ protected:
 	Node* m_currentNode;
 
 	Graph* m_graph;
+
+	int m_index = 0;
 };
 

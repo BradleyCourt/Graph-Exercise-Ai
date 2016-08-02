@@ -1,6 +1,7 @@
 #include "Graph.h"
 #include "Node.h"
 #include "Edge.h"
+#include <list>
 
 
 Graph::Graph()

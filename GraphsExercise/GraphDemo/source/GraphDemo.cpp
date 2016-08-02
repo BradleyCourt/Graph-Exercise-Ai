@@ -20,8 +20,8 @@
 #include "Seek.h"
 
 Pathfinder* thepath;
-std::list<Node*>path;
 Node* firstnode = nullptr;
+std::list<Node*> path;
 Node* secondnode;
 Seek* seek;
 
@@ -31,8 +31,6 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 
 	m_graph = new Graph;
 	Node *a = m_graph->AddNode(Vector2(100, 100)); 
-
-	seek - new Seek();
 	
 	float graphScale = 2.5f;
 	Node *b = m_graph->AddNode(Vector2(150 * graphScale, 100 * graphScale));
@@ -77,6 +75,10 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 
 	agent->m_sprite = m_nodeTexture;
 	enemy->m_sprite = m_pinkNodeTexture;
+
+	seek = new Seek(agent, m_graph);
+
+	agent->addBehaviourList(seek);
 }
 
 GraphDemo::~GraphDemo()
@@ -104,107 +106,99 @@ void GraphDemo::Update(float deltaTime)
 		std::cout << "Dijkstras" << std::endl;
 	}
 
-	agent->addBehaviourList(seek);
-
-	agent->update(deltaTime);
-	enemy->update(deltaTime);
+	//enemy->update(outPut, deltaTime);
 	
-
-		if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
+	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
+	{
+		if (sNode && eNode)
 		{
-			if (sNode && eNode)
-			{
-				for (auto & node : m_graph->m_list)
-				{
-					node->parent = nullptr;
-					node->gScore = std::numeric_limits<float>::max();
-					node->hScore = 0;
-					node->fScore = 0;
-				}
-				thepath->AStar(sNode, eNode, outPut);
-			}
-			std::cout << "AStar" << std::endl;
-		}
-
-		if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_P))
-		{
-			std::cout << "Reset" << std::endl;
-			sNode = nullptr;
-			eNode = nullptr;
-			outPut.clear();
-
-
-		}
-		if (Input::GetSingleton()->WasMouseButtonPressed(0))
-		{
-			int mx, my;
-			Input::GetSingleton()->GetMouseXY(&mx, &my);
-
-			Node* newNode = m_graph->AddNode(Vector2(mx, my));
-
 			for (auto & node : m_graph->m_list)
 			{
-				float dist = node->pos.distance(newNode->pos);
-				if (dist < 100)
-				{
-					m_graph->ConnectNodes(node, newNode, node->pos.distance(newNode->pos));
-				}
+				node->parent = nullptr;
+				node->gScore = std::numeric_limits<float>::max();
+				node->hScore = 0;
+				node->fScore = 0;
 			}
-
-
-			// Handle mouse input here
+			thepath->AStar(sNode, eNode, outPut);
 		}
+			std::cout << "AStar" << std::endl;
+	}
 
-		if (Input::GetSingleton()->WasMouseButtonPressed(1))
+	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_P))
+	{
+		std::cout << "Reset" << std::endl;
+		sNode = nullptr;
+		eNode = nullptr;
+		outPut.clear();
+	}
+
+	if (Input::GetSingleton()->WasMouseButtonPressed(0))
+	{
+		int mx, my;
+		Input::GetSingleton()->GetMouseXY(&mx, &my);
+
+		Node* newNode = m_graph->AddNode(Vector2(mx, my));
+
+		for (auto & node : m_graph->m_list)
 		{
-			int mx, my;
-			Input::GetSingleton()->GetMouseXY(&mx, &my);
-			if (!sNode)
+			float dist = node->pos.distance(newNode->pos);
+			if (dist < 100)
 			{
-				sNode = m_graph->FindNode(Vector2(mx, my));
+				m_graph->ConnectNodes(node, newNode, node->pos.distance(newNode->pos));
 			}
-			else if (!eNode)
-			{
-				eNode = m_graph->FindNode(Vector2(mx, my));
-			}
-			else if (sNode && eNode)
-			{
-				sNode = nullptr;
-				eNode = nullptr;
-			}
-		}
-
-		agent->count += deltaTime;
-		float dist = sqrt(powf(agent->getPos().m_y - enemy->getPos().m_y, 2) + powf(agent->getPos().m_x - enemy->getPos().m_x, 2));
-		//float dist = (enemy->getPos() - agent->getPos()).magnitude();
-
-		//std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-
-			if (dist <= 50)
-			{
-
-				//std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-				Texture* temp;
-				//int duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
-				//int difference = agent->count - deltaTime;
-				std::cout << "distance: " << dist << std::endl;
-				if (agent->count < 3)
-				{
-					std::cout << "im working" << std::endl;
-				}
-				else
-				{
-					std::cout << "changed" << std::endl;
-					temp = agent->m_sprite;
-					agent->m_sprite = enemy->m_sprite;
-					enemy->m_sprite = temp;
-					agent->count = 0;
-
-				}
-				
-			
 		}
 	}
+
+	if (Input::GetSingleton()->WasMouseButtonPressed(1))
+	{
+		int mx, my;
+		Input::GetSingleton()->GetMouseXY(&mx, &my);
+		if (!sNode)
+		{
+			sNode = m_graph->FindNode(Vector2(mx, my));
+		}
+		else if (!eNode)
+		{
+			eNode = m_graph->FindNode(Vector2(mx, my));
+		}
+		else if (sNode && eNode)
+		{
+			sNode = nullptr;
+			eNode = nullptr;
+		}
+	}
+
+	// rename seek as a behaviour node and put inside agent
+	seek->update(outPut, agent, deltaTime);
+	agent->update(outPut, deltaTime);
+	agent->count += deltaTime;
+	float dist = sqrt(powf(agent->getPos().m_y - enemy->getPos().m_y, 2) + powf(agent->getPos().m_x - enemy->getPos().m_x, 2));
+	//float dist = (enemy->getPos() - agent->getPos()).magnitude();
+
+	//std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
+	if (dist <= 50)
+	{
+		//std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+		Texture* temp;
+		//int duration = std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count();
+		//int difference = agent->count - deltaTime;
+		std::cout << "distance: " << dist << std::endl;
+		if (agent->count < 3)
+		{
+			std::cout << "im working" << std::endl;
+		}
+		else
+		{
+			std::cout << "changed" << std::endl;
+			temp = agent->m_sprite;
+			agent->m_sprite = enemy->m_sprite;
+			enemy->m_sprite = temp;
+			agent->count = 0;
+
+		}
+	}
+}
 	
 
 void GraphDemo::Draw()
@@ -215,7 +209,7 @@ void GraphDemo::Draw()
 	
 	m_spritebatch->Begin();
 
-	m_spritebatch->DrawSprite(agent->m_sprite, agent->getPos().m_x, agent->getPos().m_y, 50, 50, 0, 0.5f, 0.5f);
+	m_spritebatch->DrawSprite(agent->m_sprite, agent->getPos().m_x, agent->getPos().m_y, 100, 100, 0, 0.5f, 0.5f);
 	m_spritebatch->DrawSprite(enemy->m_sprite, enemy->getPos().m_x, enemy->getPos().m_y, 50, 50, 0, 0.5f, 0.5f);
 
 	for (auto i : m_graph->m_list)

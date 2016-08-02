@@ -1,6 +1,9 @@
 #pragma once
+#include <vector>
+#include <list>
 class Agent;
 class Node;
+
 
 enum BehaviourResult
 {
@@ -21,7 +24,7 @@ public:
 	
 	BehaviourResult Result;
 
-	virtual BehaviourResult update(std::list<Node*>&path, Agent* tempAgent, Agent* agent, float dTime) = 0;
+	virtual BehaviourResult update(std::list<Node*> path, Agent* pAgent, float dTime) = 0;
 
 protected:
 	BehaviourResult result = Pending;

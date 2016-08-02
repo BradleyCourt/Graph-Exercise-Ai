@@ -43,28 +43,28 @@ const bool Vector3::operator==(const Vector3 & vecA)
 	return (m_x == vecA.m_x) && (m_y == vecA.m_y) && (m_z == vecA.m_z);
 }
 
-Vector3 & Vector3::operator*(const float f)
+Vector3 Vector3::operator*(const float f)
 {
 	return Vector3((m_x * f), (m_y * f), (m_z * f));
 }
 
-Vector3 & Vector3::operator/(const float f)
+Vector3 Vector3::operator/(const float f)
 {
 	return Vector3((m_x / f), (m_y / f), (m_z / f));
 }
 
-Vector3 & Vector3::operator/(const Vector3 & rhs)
+Vector3 Vector3::operator/(const Vector3 & rhs)
 {
 	return Vector3((m_x / rhs.m_x), (m_y / rhs.m_y), (m_z / rhs.m_z));
 	// 90% sure is right
 }
 
-Vector3 & Vector3::operator+(const Vector3 & rhs)
+Vector3 Vector3::operator+(const Vector3 & rhs)
 {
 	return Vector3((m_x + rhs.m_x), (m_y + rhs.m_y), (m_z + rhs.m_z));
 }
 
-Vector3 & Vector3::operator-(const Vector3 & rhs)
+Vector3 Vector3::operator-(const Vector3 & rhs)
 {
 	return Vector3((m_x - rhs.m_x), (m_y - rhs.m_y), (m_z - rhs.m_z));
 }

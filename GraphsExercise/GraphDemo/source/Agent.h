@@ -3,6 +3,7 @@
 #include <vector>
 #include "SpriteBatch.h"
 #include "Matrix3.h"
+#include "Node.h"
 #include <list>
 class IBehaviour;
 class Agent
@@ -13,6 +14,7 @@ protected:
 
 	std::vector<IBehaviour*> m_BehaviourList;
 public:
+	std::list<Node*>path;
 	Vector3 m_pos;
 	Vector3 m_vel, m_accel;
 	Vector3 m_force;
@@ -26,7 +28,7 @@ public:
 	void setVel(Vector3 vel);
 	void setAccel(Vector3 accel);
 	void addForce(Vector3 force);
-	void update(std::list<Node*>&path, Agent* tempAgent, Agent* agent, float dTime);
+	void update(std::list<Node*> path, float dTime);
 	Texture* m_sprite;
 	Matrix3 transform;
 

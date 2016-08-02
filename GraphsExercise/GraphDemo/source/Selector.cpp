@@ -1,4 +1,5 @@
 #include "Selector.h"
+#include "Agent.h"
 
 
 
@@ -6,8 +7,8 @@ Selector::Selector()
 {
 }
 
-
-BehaviourResult Selector::update(Agent * tempAgent, float dTime)
+// refactor so that path and other agent related variables are stored in the agent
+BehaviourResult Selector::update(std::list<Node*> path,  Agent *pAgent, float dTime)
 {
 	
 	m_currentChild = m_pendingChild; //also make these changes to the Sequencer class
@@ -16,30 +17,45 @@ BehaviourResult Selector::update(Agent * tempAgent, float dTime)
 
 	m_pendingChild = nullptr;
 
-		//if (m_currentChild = nullptr)
-		//{
-		//	m_currentChild = m_childBehaviours.begin;
-		//}
+		if (m_currentChild = nullptr)
+		{
+			m_currentChild = m_childBehaviours.front();
+		}
 
-		//while (m_currentChild <= m_childBehaviours.end)
-		//{
-		//	//result 
-		//	Result = m_currentChild->update(pAgent);
-		//}
-		//	if (return == Success)
-		//	{
-		//		return Success;
-		//	}
-		//	else if (result == Failure)
-		//	{
-		//		child = next child;
-		//		return Failure;
-		//	}
-		//else if (result == Pending)
-		//	{
-		//		m_pendingChild = child;
-		//		return Pending;
-		//	}
+		for (unsigned int i = 0; i < m_childBehaviours.size(); i++) {
+			if (m_currentChild->update(path, pAgent, dTime) == Success)
+			{
+				return Success;
+			}
+			else if (m_currentChild->update(path, pAgent, dTime) == Failure)
+			{
+				//Do nothing, allow loop to iterate one
+			}
+			else if (m_currentChild->update(path, pAgent, dTime) == Pending)
+			{
+				m_pendingChild = m_currentChild;
+				return Pending;
+			}
+		}
+
+		/*while (m_currentChild <= m_childBehaviours.end())
+		{
+			//result 
+			Result = m_currentChild->update(pAgent, dTime);
+			if (Result == Success)
+			{
+				return Success;
+			}
+			else if (Result == Failure)
+			{
+				m_currentChild = next child;
+			}
+			else if (Result == Pending)
+			{
+				m_pendingChild = m_currentChild;
+				return Pending;
+			}
+		}*/
 	return Result;
 }
 

@@ -1,4 +1,4 @@
-#include "Seek.h"
+#include "FollowPath.h"
 #include "Node.h"
 #include "Graph.h"
 #include <list>
@@ -7,25 +7,41 @@
 #include "Vector3.h"
 
 
-Seek::Seek()
+FollowPath::FollowPath()
 {
 }
-Seek::Seek(Agent* enemy, Graph* g)
+FollowPath::FollowPath(Agent* enemy, Graph* g)
 {
 	m_graph = g;
 
 }
 
-Seek::~Seek()
+FollowPath::~FollowPath()
 {
 }
 
 
-BehaviourResult Seek::update(std::list<Node*> path , Agent * pAgent, float deltatime)
+BehaviourResult FollowPath::update(Agent * pAgent, float deltatime)
 {
+	for ()
+
+	//Find node closest to player
 	
+	//find node closest to agent
+
+	//find path between those two nodes
+
+
+
+
+
+
+
+	//go to next node in the path
+	std::list<Node*> path = m_graph->m_list;
 	if (!path.empty())
 	{
+		
 		if (m_index < path.size())
 		{
 			std::list<Node*>::iterator it = path.begin();

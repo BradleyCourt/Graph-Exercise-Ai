@@ -98,7 +98,7 @@
     <ClCompile Include="source\KeyboardController.cpp" />
     <ClCompile Include="source\Node.cpp" />
     <ClCompile Include="source\Pathfinder.cpp" />
-    <ClCompile Include="source\Seek.cpp" />
+    <ClCompile Include="source\FollowPath.cpp" />
     <ClCompile Include="source\Selector.cpp" />
     <ClCompile Include="source\Sequence.cpp" />
   </ItemGroup>
@@ -114,7 +114,7 @@
     <ClInclude Include="source\KeyboardController.h" />
     <ClInclude Include="source\Node.h" />
     <ClInclude Include="source\Pathfinder.h" />
-    <ClInclude Include="source\Seek.h" />
+    <ClInclude Include="source\FollowPath.h" />
     <ClInclude Include="source\Selector.h" />
     <ClInclude Include="source\Sequence.h" />
   </ItemGroup>

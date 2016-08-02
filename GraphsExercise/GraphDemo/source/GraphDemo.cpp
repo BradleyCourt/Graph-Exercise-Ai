@@ -17,16 +17,22 @@
 #include <chrono>
 #include <iostream>
 #include <math.h>
-#include "Seek.h"
+#include "FollowPath.h"
+#include "Selector.h"
+#include "Sequence.h"
 
 Pathfinder* thepath;
 Node* firstnode = nullptr;
 std::list<Node*> path;
 Node* secondnode;
-Seek* seek;
+FollowPath* followPath;
 
 GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
+	//Sequence* wander = new Sequence();
+	//wander->AddChild(new GetRandomPath());
+	//wander->AddChild(new FollowPath());
+
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);	
 
 	m_graph = new Graph;
@@ -62,7 +68,14 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	agent = new Agent();
 //	agent->addBehaviourList(new KeyboardController());
 	agent->setPos(Vector3(100, 100, 0));
+
+
+
 	enemy = new Agent();
+	Sequence* behaviourRoot = new Sequence();
+	enemy->addBehaviourList(behaviourRoot);
+	Selector* seekRoot = new Selector();
+	behaviourRoot->addChild(seekRoot);
 //	enemy->addBehaviourList(new ArrowKeyController());
 	
 	sNode = nullptr;
@@ -76,9 +89,9 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	agent->m_sprite = m_nodeTexture;
 	enemy->m_sprite = m_pinkNodeTexture;
 
-	seek = new Seek(agent, m_graph);
+	followPath = new FollowPath(agent, m_graph);
 
-	agent->addBehaviourList(seek);
+	agent->addBehaviourList(followPath);
 }
 
 GraphDemo::~GraphDemo()
@@ -169,7 +182,7 @@ void GraphDemo::Update(float deltaTime)
 	}
 
 	// rename seek as a behaviour node and put inside agent
-	seek->update(outPut, agent, deltaTime);
+	followPath->update(agent, deltaTime);
 	agent->update(outPut, deltaTime);
 	agent->count += deltaTime;
 	float dist = sqrt(powf(agent->getPos().m_y - enemy->getPos().m_y, 2) + powf(agent->getPos().m_x - enemy->getPos().m_x, 2));

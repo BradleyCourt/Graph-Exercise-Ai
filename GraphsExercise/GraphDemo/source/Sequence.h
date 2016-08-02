@@ -9,7 +9,7 @@ public:
 
 	//void Update(Agent);
 
-	BehaviourResult update(Agent* tempAgent, float dTime);
+	virtual BehaviourResult update(Agent* tempAgent, float dTime);
 
 	Sequence();
 	~Sequence();

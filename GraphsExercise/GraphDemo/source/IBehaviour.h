@@ -17,16 +17,16 @@ class IBehaviour
 
 public:
 
-	
+	void addChild(IBehaviour* b);
 
 	IBehaviour();
 	~IBehaviour();
 	
 	BehaviourResult Result;
 
-	virtual BehaviourResult update(std::list<Node*> path, Agent* pAgent, float dTime) = 0;
+	virtual BehaviourResult update(Agent* tempAgent, float dTime) = 0;
 
 protected:
-	BehaviourResult result = Pending;
+	std::vector<IBehaviour*> m_childBehaviours;
 };
 

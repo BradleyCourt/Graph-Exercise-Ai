@@ -12,7 +12,7 @@ public:
 
 	virtual BehaviourResult update(Agent* tempAgent, float dTime) = 0;
 
-	std::vector<IBehaviour*> m_childBehaviours;
+	
 	
 	//list childBehaviours;
 	//IBehaviour pendingChild : null

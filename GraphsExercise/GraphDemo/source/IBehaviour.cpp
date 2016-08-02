@@ -3,6 +3,11 @@
 
 
 
+void IBehaviour::addChild(IBehaviour * b)
+{
+	m_childBehaviours.push_back(b);
+}
+
 IBehaviour::IBehaviour()
 {
 }

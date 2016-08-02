@@ -23,6 +23,7 @@ public:
 	float dot(const Vector3& vecA);
 	Vector3 cross(const Vector3 & vecA);
 	float magnitude();
+	float distance(Vector3 rhs);
 	void normalise();
 	operator float*();
 

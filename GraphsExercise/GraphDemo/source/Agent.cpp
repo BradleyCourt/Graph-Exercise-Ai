@@ -64,7 +64,7 @@ void Agent::update(std::list<Node*> path, float dTime)
 {
 	for (unsigned int i = 0; i < m_BehaviourList.size(); i++)
 	{
-		m_BehaviourList.at(i)->update(path, this, dTime);
+		m_BehaviourList.at(i)->update(this, dTime);
 		
 	}
 

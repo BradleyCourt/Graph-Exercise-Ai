@@ -88,6 +88,11 @@ float Vector3::magnitude()
 	return sqrt(m_x * m_x + m_y * m_y + m_z * m_z);
 }
 
+float Vector3::distance(Vector3 rhs)
+{
+	return (*this - rhs).magnitude();
+}
+
 void Vector3::normalise()
 {
 	float length = magnitude();

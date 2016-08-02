@@ -4,14 +4,14 @@
 
 class Node;
 class Graph;
-class Seek : public IBehaviour
+class FollowPath : public IBehaviour
 {
 public:
-	Seek();
-	Seek(Agent* enemy, Graph* g);
-	virtual ~Seek();
+	FollowPath();
+	FollowPath(Agent* enemy, Graph* g);
+	virtual ~FollowPath();
 	
-	virtual BehaviourResult update(std::list<Node*> path, Agent * pAgent, float deltatime);
+	virtual BehaviourResult update(Agent * pAgent, float deltatime);
 	
 
 protected:

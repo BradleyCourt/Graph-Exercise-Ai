@@ -5,14 +5,14 @@
 
 class Agent;
 
-class Selector : Composite
+class Selector : public Composite
 {
 public:
 //	BehaviourResult execute(Agent);
 
 
 	Selector();
-	virtual BehaviourResult update(std::list<Node*> path, Agent * pAgent, float dTime);
+	virtual BehaviourResult update(Agent* tempAgent, float dTime);
 	~Selector();
 };
 

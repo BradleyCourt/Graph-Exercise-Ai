@@ -128,6 +128,7 @@ void Pathfinder::AStar(Node * startNode, Node* endNode, std::list<Node*>& outPut
 
 	}
 
+	outPut.clear();
 	currentNode = endNode;
 	while (currentNode != nullptr)
 	{

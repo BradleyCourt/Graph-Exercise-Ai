@@ -1,7 +1,6 @@
 #pragma once
 #include "IBehaviour.h"
 #include <list>
-
 class Node;
 class Graph;
 class FollowPath : public IBehaviour

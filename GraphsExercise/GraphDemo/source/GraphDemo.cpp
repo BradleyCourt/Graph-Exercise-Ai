@@ -133,6 +133,7 @@ void GraphDemo::Update(float deltaTime)
 				node->fScore = 0;
 			}
 			thepath->AStar(sNode, eNode, outPut);
+			agent->path = outPut;
 		}
 			std::cout << "AStar" << std::endl;
 	}

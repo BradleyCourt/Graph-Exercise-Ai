@@ -1,8 +1,13 @@
 #pragma once
-class FindPath
+
+#include "IBehaviour.h"
+
+class FindPath : public IBehaviour
 {
 public:
 	FindPath();
 	virtual ~FindPath();
+
+	virtual BehaviourResult update(Agent * pAgent, float deltatime);
 };
 

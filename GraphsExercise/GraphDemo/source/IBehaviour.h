@@ -24,7 +24,7 @@ public:
 	
 	BehaviourResult Result;
 
-	virtual BehaviourResult update(Agent* tempAgent, float dTime) = 0;
+	virtual BehaviourResult update(Agent* enemy, Agent* tempAgent, float dTime) = 0;
 
 protected:
 	std::vector<IBehaviour*> m_childBehaviours;

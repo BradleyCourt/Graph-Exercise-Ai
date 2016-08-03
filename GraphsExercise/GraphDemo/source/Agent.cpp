@@ -60,11 +60,11 @@ void Agent::addForce(Vector3 force)
 	m_force = m_force + force;
 }
 
-void Agent::update(std::list<Node*> path, float dTime)
+void Agent::update(Agent* enemy, std::list<Node*> path, float dTime)
 {
 	for (unsigned int i = 0; i < m_BehaviourList.size(); i++)
 	{
-		m_BehaviourList.at(i)->update(this, dTime);
+		m_BehaviourList.at(i)->update(enemy, this, dTime);
 		
 	}
 

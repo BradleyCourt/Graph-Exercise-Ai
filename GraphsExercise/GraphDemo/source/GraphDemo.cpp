@@ -89,7 +89,7 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	agent->m_sprite = m_nodeTexture;
 	enemy->m_sprite = m_pinkNodeTexture;
 
-	followPath = new FollowPath(agent, m_graph);
+	followPath = new FollowPath();
 
 	agent->addBehaviourList(followPath);
 }
@@ -104,7 +104,7 @@ GraphDemo::~GraphDemo()
 void GraphDemo::Update(float deltaTime)
 {
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_I))
-	{	
+	{
 		if (sNode && eNode)
 		{
 			for (auto & node : m_graph->m_list)
@@ -120,7 +120,7 @@ void GraphDemo::Update(float deltaTime)
 	}
 
 	//enemy->update(outPut, deltaTime);
-	
+
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
 	{
 		if (sNode && eNode)
@@ -134,7 +134,7 @@ void GraphDemo::Update(float deltaTime)
 			}
 			thepath->AStar(sNode, eNode, outPut);
 		}
-			std::cout << "AStar" << std::endl;
+		std::cout << "AStar" << std::endl;
 	}
 
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_P))
@@ -182,8 +182,8 @@ void GraphDemo::Update(float deltaTime)
 	}
 
 	// rename seek as a behaviour node and put inside agent
-	followPath->update(agent, deltaTime);
-	agent->update(outPut, deltaTime);
+	followPath->update(enemy, agent, deltaTime);
+	agent->update(enemy, outPut, deltaTime);
 	agent->count += deltaTime;
 	float dist = sqrt(powf(agent->getPos().m_y - enemy->getPos().m_y, 2) + powf(agent->getPos().m_x - enemy->getPos().m_x, 2));
 	//float dist = (enemy->getPos() - agent->getPos()).magnitude();
@@ -212,8 +212,6 @@ void GraphDemo::Update(float deltaTime)
 		}
 	}
 }
-	
-
 void GraphDemo::Draw()
 {
 

@@ -8,7 +8,7 @@ Selector::Selector()
 }
 
 // refactor so that path and other agent related variables are stored in the agent
-BehaviourResult Selector::update(Agent *pAgent, float dTime)
+BehaviourResult Selector::update(Agent* agent, Agent *pAgent, float dTime)
 {
 	
 	m_currentChild = m_pendingChild; //also make these changes to the Sequencer class
@@ -23,15 +23,15 @@ BehaviourResult Selector::update(Agent *pAgent, float dTime)
 		}
 
 		for (unsigned int i = 0; i < m_childBehaviours.size(); i++) {
-			if (m_currentChild->update(pAgent, dTime) == Success)
+			if (m_currentChild->update(agent, pAgent, dTime) == Success)
 			{
 				return Success;
 			}
-			else if (m_currentChild->update(pAgent, dTime) == Failure)
+			else if (m_currentChild->update(agent, pAgent, dTime) == Failure)
 			{
 				//Do nothing, allow loop to iterate one
 			}
-			else if (m_currentChild->update(pAgent, dTime) == Pending)
+			else if (m_currentChild->update(agent, pAgent, dTime) == Pending)
 			{
 				m_pendingChild = m_currentChild;
 				return Pending;

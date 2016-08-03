@@ -3,7 +3,7 @@
 
 
 
-BehaviourResult Sequence::update(Agent * tempAgent, float dTime)
+BehaviourResult Sequence::update(Agent* agent, Agent * tempAgent, float dTime)
 {
 	for (int i = 1; i <= 1; i++)
 	{
@@ -33,7 +33,7 @@ Sequence::Sequence()
 
 Sequence::~Sequence()
 {
-}
+}													
 
 void Update(Agent)
 {

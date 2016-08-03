@@ -28,7 +28,7 @@ public:
 	void setVel(Vector3 vel);
 	void setAccel(Vector3 accel);
 	void addForce(Vector3 force);
-	void update(std::list<Node*> path, float dTime);
+	void update(Agent * enemy, std::list<Node*> path, float dTime);
 	Texture* m_sprite;
 	Matrix3 transform;
 

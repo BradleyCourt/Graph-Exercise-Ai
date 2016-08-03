@@ -18,7 +18,8 @@ class Agent;
 class GraphDemo : public Application
 {
 public:
-
+	Node* sNode;
+	Node* eNode;
 	// assets loaded in constructor
 	GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title);
 
@@ -43,8 +44,7 @@ protected:
 	Agent* agent;
 	Agent* enemy;
 
-	Node* sNode;
-	Node* eNode;
+	
 private:
 };
 

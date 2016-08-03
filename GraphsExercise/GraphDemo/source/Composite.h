@@ -10,7 +10,7 @@ public:
 	Composite();
 	~Composite();
 
-	virtual BehaviourResult update(Agent* tempAgent, float dTime) = 0;
+	virtual BehaviourResult update(Agent* agent, Agent* tempAgent, float dTime) = 0;
 
 	
 	

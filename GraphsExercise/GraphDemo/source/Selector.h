@@ -12,7 +12,7 @@ public:
 
 
 	Selector();
-	virtual BehaviourResult update(Agent* tempAgent, float dTime);
+	virtual BehaviourResult update(Agent* agent, Agent* tempAgent, float dTime);
 	~Selector();
 };
 

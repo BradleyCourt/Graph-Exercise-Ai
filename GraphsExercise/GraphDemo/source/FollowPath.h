@@ -11,7 +11,7 @@ public:
 	FollowPath(Agent* enemy, Graph* g);
 	virtual ~FollowPath();
 	
-	virtual BehaviourResult update(Agent * pAgent, float deltatime);
+	virtual BehaviourResult update(Agent* Player, Agent * Enemy, float deltatime);
 	
 
 protected:

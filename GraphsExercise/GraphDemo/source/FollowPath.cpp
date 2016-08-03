@@ -23,19 +23,11 @@ FollowPath::~FollowPath()
 
 BehaviourResult FollowPath::update(Agent * pAgent, float deltatime)
 {
-
-
 	//Find node closest to player
 	
 	//find node closest to agent
 
 	//find path between those two nodes
-
-
-	
-
-
-
 
 	//go to next node in the path
 	std::list<Node*> path = pAgent->path;

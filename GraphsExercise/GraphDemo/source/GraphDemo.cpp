@@ -20,15 +20,18 @@
 #include "FollowPath.h"
 #include "Selector.h"
 #include "Sequence.h"
+#include "FindPath.h"
 
 Pathfinder* thepath;
 Node* firstnode = nullptr;
 std::list<Node*> path;
 Node* secondnode;
-FollowPath* followPath;
 
 GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool fullscreen, const char *title) : Application(windowWidth, windowHeight, fullscreen, title)
 {
+	srand(time(NULL));
+	sNode = nullptr;
+	eNode = nullptr;
 	//Sequence* wander = new Sequence();
 	//wander->AddChild(new GetRandomPath());
 	//wander->AddChild(new FollowPath());
@@ -55,6 +58,7 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph->ConnectNodes(d, c, d->pos.distance(c->pos)); 
 	m_graph->ConnectNodes(d, b, d->pos.distance(b->pos)); 
 	m_graph->ConnectNodes(d, h, d->pos.distance(h->pos)); 
+	//m_graph->ConnectNodes(h, d, d->pos.distance(h->pos));
 	m_graph->ConnectNodes(d, e, d->pos.distance(e->pos)); 
 	m_graph->ConnectNodes(d, f, d->pos.distance(f->pos)); 
 	m_graph->ConnectNodes(d, g, d->pos.distance(g->pos)); 
@@ -65,21 +69,23 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph->ConnectNodes(h, g, h->pos.distance(g->pos));
 	m_graph->ConnectNodes(g, d, g->pos.distance(d->pos));
 
-	agent = new Agent();
+	agent = new Agent(Vector3(650, 100, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	agentList.push_back(agent);
 //	agent->addBehaviourList(new KeyboardController());
-	agent->setPos(Vector3(100, 100, 0));
 
 
 
-	enemy = new Agent();
-	Sequence* behaviourRoot = new Sequence();
+	enemy = new Agent(Vector3(300, 300, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	agentList.push_back(enemy);
+	Selector* behaviourRoot = new Selector();
 	enemy->addBehaviourList(behaviourRoot);
-	Selector* seekRoot = new Selector();
+	Sequence* seekRoot = new Sequence();
 	behaviourRoot->addChild(seekRoot);
+	FindPath* findTarget = new FindPath(agent, m_graph);
+	FollowPath* followTarget = new FollowPath();
+	seekRoot->addChild(findTarget);
+	seekRoot->addChild(followTarget);
 //	enemy->addBehaviourList(new ArrowKeyController());
-	
-	sNode = nullptr;
-	eNode = nullptr;
 
 	crate = new Texture("./Images/box0_256.png");
 	m_pinkNodeTexture = new Texture("./Images/pinkNode.png");
@@ -88,10 +94,6 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 
 	agent->m_sprite = m_nodeTexture;
 	enemy->m_sprite = m_pinkNodeTexture;
-
-	followPath = new FollowPath(agent, m_graph);
-
-	agent->addBehaviourList(followPath);
 }
 
 GraphDemo::~GraphDemo()
@@ -146,6 +148,13 @@ void GraphDemo::Update(float deltaTime)
 		outPut.clear();
 	}
 
+	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_3))
+	{
+		int x = rand() % 1200 + 0;
+		int y = rand() % 700 + 0;
+		agent->setPos(Vector3(x, y, 0));
+	}
+
 	if (Input::GetSingleton()->WasMouseButtonPressed(0))
 	{
 		int mx, my;
@@ -182,9 +191,18 @@ void GraphDemo::Update(float deltaTime)
 		}
 	}
 
-	// rename seek as a behaviour node and put inside agent
-	followPath->update(agent, deltaTime);
-	agent->update(outPut, deltaTime);
+
+	//update all Agents
+	std::list<Agent*>::iterator i = agentList.begin();
+	Agent* currentAgent = nullptr;
+	while (i != agentList.end()) 
+	{
+		currentAgent = *i;
+		currentAgent->update(deltaTime);
+		std::advance(i, 1);
+	}
+
+
 	agent->count += deltaTime;
 	float dist = sqrt(powf(agent->getPos().m_y - enemy->getPos().m_y, 2) + powf(agent->getPos().m_x - enemy->getPos().m_x, 2));
 	//float dist = (enemy->getPos() - agent->getPos()).magnitude();

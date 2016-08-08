@@ -79,8 +79,6 @@ void Pathfinder::FindPathDijkstras(Node * startNode, Node* potentialEndNodes, st
 			
 void Pathfinder::AStar(Node * startNode, Node* endNode, std::list<Node*>& outPut)
 {
-	// DOESNT WORK, MEMORY LEAK SOMEWHERE MAKE SURE PARENTS ARE SET TO NULLPTR
-	// SAME PROBLEM CONSISTS WITH ASTAR
 	std::list<Node*> Temp;
 	std::list<Node*> openList;
 	std::list<Node*> closeList;
@@ -126,7 +124,7 @@ void Pathfinder::AStar(Node * startNode, Node* endNode, std::list<Node*>& outPut
 					openList.push_back(edges->m_destination);
 		}
 
-	}
+	};
 
 	outPut.clear();
 	currentNode = endNode;

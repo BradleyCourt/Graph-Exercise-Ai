@@ -5,25 +5,14 @@
 
 BehaviourResult Sequence::update(Agent * tempAgent, float dTime)
 {
-	for (int i = 1; i <= 1; i++)
+	for (int i = 0; i < m_childBehaviours.size(); i++)
 	{
-		if ((m_childBehaviours[i]->Result) == Failure)
+		if ((m_childBehaviours.at(i)->update(tempAgent, dTime)) == Failure)
 		{
-			// Flee
+			return Failure;
 		}
-
-		if ((m_childBehaviours[i]->Result) == Success)
-		{
-			// Seek
-		}
-
-		if ((m_childBehaviours[i]->Result) != Success && ((m_childBehaviours[i]->Result) != Failure) == Pending)
-		{
-			//Pending
-		}
-
 	}
-	return Result;
+	return Success;
 }
 
 Sequence::Sequence()

@@ -12,7 +12,7 @@ void Agent::addBehaviourList(IBehaviour* behaviour)
 		delete m_BehaviourList.at(i);
 		m_BehaviourList.pop_back();
 	}*/
-	m_BehaviourList.push_back(behaviour);
+	m_BehaviourList = behaviour;
 }
 
 
@@ -25,6 +25,7 @@ Agent::Agent(Vector3 pos, Vector3 vel, Vector3 accel, Vector3 force)
 	m_vel = vel;
 	m_accel = accel;
 	m_force = force;
+	m_targetNode = nullptr;
 	//count = 0;
 }
 
@@ -60,12 +61,11 @@ void Agent::addForce(Vector3 force)
 	m_force = m_force + force;
 }
 
-void Agent::update(std::list<Node*> path, float dTime)
+void Agent::update(float dTime)
 {
-	for (unsigned int i = 0; i < m_BehaviourList.size(); i++)
+	if (m_BehaviourList != nullptr) 
 	{
-		m_BehaviourList.at(i)->update(this, dTime);
-		
+		m_BehaviourList->update(this, dTime);
 	}
 
 	m_vel = m_force - m_vel;

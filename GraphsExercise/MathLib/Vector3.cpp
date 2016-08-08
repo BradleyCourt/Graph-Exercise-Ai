@@ -106,6 +106,11 @@ Vector3::operator float*()
 	return (float*)this;
 }
 
+Vector3::operator Vector2()
+{
+	return Vector2(m_x, m_y);
+}
+
 Vector3 operator*(const float f, const Vector3 & vecA)
 {
 	return Vector3(vecA.m_x * f, vecA.m_y * f, vecA.m_z * f);

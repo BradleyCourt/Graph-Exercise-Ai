@@ -45,6 +45,7 @@ protected:
 
 	Node* sNode;
 	Node* eNode;
+	std::list<Agent*> agentList;
 private:
 };
 

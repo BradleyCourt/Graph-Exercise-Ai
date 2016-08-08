@@ -27,6 +27,7 @@ public:
 	void normalise();
 	operator float*();
 
+	operator Vector2();
 };
 
 Vector3 operator*(const float f, const Vector3& vecA);

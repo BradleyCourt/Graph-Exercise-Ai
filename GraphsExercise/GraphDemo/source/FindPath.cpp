@@ -23,11 +23,13 @@ FindPath::~FindPath()
 BehaviourResult FindPath::update(Agent * pAgent, float deltatime)
 {
 	//pAgent->m_currentNode = findNearestNodeToAgent(pAgent);
+	//figure out the closest node to the agent
+	Node* currentNode = findNearestNodeToAgent(pAgent);
 
-	if (pAgent->m_targetNode == nullptr) // || output.empty())
+	
+	if (pAgent->m_targetNode == nullptr || (pAgent->output.empty() && currentNode != pAgent->m_targetNode)) // || output.empty())
 	{
-		//figure out the closest node to the agent
-		Node* currentNode = findNearestNodeToAgent(pAgent);
+		
 		//and the closest node to the player
 		pAgent->m_targetNode = findNearestNodeToAgent(m_target);
 		//find a path between these two nodes
@@ -45,8 +47,16 @@ BehaviourResult FindPath::update(Agent * pAgent, float deltatime)
 
 		if (pAgent->output.size() > 0)
 		{
-			pAgent->m_nextNode = pAgent->output.front();
-			pAgent->output.pop_front();
+			if (pAgent->output.size() == 2 && pAgent->output.front() == pAgent->m_lastNodeVisit)
+			{
+				pAgent->m_nextNode = pAgent->output.back();
+				pAgent->output.pop_front();
+			}
+			else
+			{
+				pAgent->m_nextNode = pAgent->output.front();
+				pAgent->output.pop_front();
+			}
 		}
 		
 		////set path on agent

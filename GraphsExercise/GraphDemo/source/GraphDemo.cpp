@@ -21,6 +21,8 @@
 #include "Selector.h"
 #include "Sequence.h"
 #include "FindPath.h"
+#include "Flee.h"
+#include "BehaviourState.h"
 
 Pathfinder* thepath;
 Node* firstnode = nullptr;
@@ -69,23 +71,53 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph->ConnectNodes(h, g, h->pos.distance(g->pos));
 	m_graph->ConnectNodes(g, d, g->pos.distance(d->pos));
 
-	agent = new Agent(Vector3(650, 100, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
-	agentList.push_back(agent);
+	
 //	agent->addBehaviourList(new KeyboardController());
 
 
+	agent = new Agent(Vector3(650, 100, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	agentList.push_back(agent);
 
-	enemy = new Agent(Vector3(300, 300, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	enemy = new Agent(Vector3(700, 250, 0), Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
 	agentList.push_back(enemy);
-	Selector* behaviourRoot = new Selector();
-	enemy->addBehaviourList(behaviourRoot);
-	Sequence* seekRoot = new Sequence();
-	behaviourRoot->addChild(seekRoot);
-	FindPath* findTarget = new FindPath(agent, m_graph);
-	FollowPath* followTarget = new FollowPath();
-	seekRoot->addChild(findTarget);
-	seekRoot->addChild(followTarget);
-//	enemy->addBehaviourList(new ArrowKeyController());
+
+	{
+		Selector* behaviourRoot = new Selector();
+
+
+		Sequence* fleeRoot = new Sequence();
+		Flee* fleeTarget = new Flee(agent, m_graph);
+		agent->addBehaviourList(behaviourRoot);
+		agent->addBehaviourList(behaviourRoot);
+		behaviourRoot->addChild(fleeRoot);
+		fleeRoot->addChild(fleeTarget);
+	}
+	
+	{
+		Selector* behaviourRoot = new Selector();
+		Sequence* isChaseMode = new Sequence();
+		BehaviourState* checkForChase = new BehaviourState(Chase);
+		Sequence* seekRoot = new Sequence();
+		FindPath* findTarget = new FindPath(agent, m_graph);
+		FollowPath* followTarget = new FollowPath();
+	
+
+		enemy->addBehaviourList(behaviourRoot);
+
+		behaviourRoot->addChild(isChaseMode);
+
+		isChaseMode->addChild(checkForChase);
+		isChaseMode->addChild(seekRoot);
+		
+		seekRoot->addChild(findTarget);
+		seekRoot->addChild(followTarget);
+			
+		
+	}
+	
+	
+
+
 
 	crate = new Texture("./Images/box0_256.png");
 	m_pinkNodeTexture = new Texture("./Images/pinkNode.png");
@@ -147,13 +179,14 @@ void GraphDemo::Update(float deltaTime)
 		eNode = nullptr;
 		outPut.clear();
 	}
-
+	
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_3))
 	{
 		int x = rand() % 1200 + 0;
 		int y = rand() % 700 + 0;
-		agent->setPos(Vector3(x, y, 0));
+		agent->setPos(Vector3(x, y, 0));	
 	}
+	
 
 	if (Input::GetSingleton()->WasMouseButtonPressed(0))
 	{
@@ -227,6 +260,7 @@ void GraphDemo::Update(float deltaTime)
 			agent->m_sprite = enemy->m_sprite;
 			enemy->m_sprite = temp;
 			agent->count = 0;
+			
 
 		}
 	}

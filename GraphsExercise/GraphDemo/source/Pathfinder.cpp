@@ -122,16 +122,25 @@ void Pathfinder::AStar(Node * startNode, Node* endNode, std::list<Node*>& outPut
 			if (std::find(closeList.begin(), closeList.end(), edges->m_destination) == closeList.end())
 				if (std::find(openList.begin(), openList.end(), edges->m_destination) == openList.end())
 					openList.push_back(edges->m_destination);
+
+			bool alreadyTraversed = false;
+			for (std::list<Node*>::iterator it = closeList.begin(); it != closeList.end(); it++) {
+				if (*it == edges->m_destination) {
+					//Connected Node has already been traversed
+					alreadyTraversed = true;
+					break;
+
+			}
 		}
-
-	};
-
-	outPut.clear();
-	currentNode = endNode;
-	while (currentNode != nullptr)
-	{
-		outPut.push_front(currentNode);
-		currentNode = currentNode->parent;
 	}
 
+		outPut.clear();
+		currentNode = endNode;
+		while (currentNode != nullptr)
+		{
+			outPut.push_front(currentNode);
+			currentNode = currentNode->parent;
+		}
+
+	}
 }

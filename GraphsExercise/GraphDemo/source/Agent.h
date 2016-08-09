@@ -6,6 +6,9 @@
 #include "Node.h"
 #include <list>
 class IBehaviour;
+
+enum state { Chase, Run };
+
 class Agent
 {
 protected:
@@ -20,7 +23,9 @@ public:
 	Vector3 m_force;
 	Node* m_targetNode = nullptr; // Where we are going (destination)
 	Node* m_nextNode = nullptr; // Where we are going (next)
+	Node* m_lastNodeVisit = nullptr; // Tracks last node to prevent getting stuck
 	std::list<Node*> output;
+	state m_state = Chase;
 
 	Agent();
 	Agent(Vector3 pos, Vector3 vel, Vector3 accel, Vector3 force);

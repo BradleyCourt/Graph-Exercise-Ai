@@ -89,6 +89,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source\Agent.cpp" />
     <ClCompile Include="source\ArrowKeyController.cpp" />
+    <ClCompile Include="source\BehaviourState.cpp" />
     <ClCompile Include="source\Composite.cpp" />
     <ClCompile Include="source\Edge.cpp" />
     <ClCompile Include="source\FindPath.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="include\GraphDemo.h" />
     <ClInclude Include="source\Agent.h" />
     <ClInclude Include="source\ArrowKeyController.h" />
+    <ClInclude Include="source\BehaviourState.h" />
     <ClInclude Include="source\Composite.h" />
     <ClInclude Include="source\Edge.h" />
     <ClInclude Include="source\FindPath.h" />

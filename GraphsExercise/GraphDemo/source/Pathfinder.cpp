@@ -4,8 +4,9 @@
 
 
 
-Pathfinder::Pathfinder()
+Pathfinder::Pathfinder(Graph* graph)
 {
+	m_graph = graph;
 }
 
 
@@ -83,6 +84,13 @@ void Pathfinder::AStar(Node * startNode, Node* endNode, std::list<Node*>& outPut
 	std::list<Node*> openList;
 	std::list<Node*> closeList;
 
+	for (auto & node : m_graph->m_list)
+	{
+		node->parent = nullptr;
+		node->gScore = std::numeric_limits<float>::max();
+		node->hScore = 0;
+		node->fScore = 0;
+	}
 
 	Node *currentNode = nullptr;
 

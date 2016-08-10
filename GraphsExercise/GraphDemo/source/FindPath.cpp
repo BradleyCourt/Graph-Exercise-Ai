@@ -13,6 +13,8 @@ FindPath::FindPath(Agent * target, Graph * graph)
 {
 	m_target = target;
 	m_graph = graph;
+
+	m_pathFinder = new Pathfinder(m_graph);
 }
 
 

@@ -5,7 +5,7 @@
 class Pathfinder
 {
 public:
-	Pathfinder();
+	Pathfinder(Graph* graph);
 	virtual ~Pathfinder();
 	
 
@@ -16,7 +16,8 @@ public:
 	void AStar(Node * startNode, Node * endNode, std::list<Node*>& outPut);
 
 
-
+private:
+	Graph* m_graph;
 };
 
 

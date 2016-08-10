@@ -36,6 +36,7 @@ BehaviourResult FollowPath::update(Agent * pAgent, float deltatime)
 				{
 					pAgent->m_nextNode = pAgent->output.back();
 					pAgent->output.clear();
+				
 				//	pAgent->m_targetNode = nullptr;
 				}
 				else

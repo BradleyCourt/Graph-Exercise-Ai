@@ -41,10 +41,39 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_spritebatch = SpriteBatch::Factory::Create(this, SpriteBatch::GL3);	
 
 	m_graph = new Graph;
-	Node *a = m_graph->AddNode(Vector2(100, 100)); 
+	//Node *a = m_graph->AddNode(Vector2(100, 100)); 
 	
 	float graphScale = 2.5f;
-	Node *b = m_graph->AddNode(Vector2(150 * graphScale, 100 * graphScale));
+	
+	Vector2 startOffset(50, 50);
+
+	int sizeX = 10;
+	int sizeY = 5;
+	int padding = 100;
+
+	for (int i = 0; i < sizeX; i++)
+	{
+		for (int j = 0; j < sizeY; j++)
+		{
+			m_graph->AddNode(Vector2(i * padding + startOffset.m_x, j * padding + startOffset.m_y));
+		}
+	}
+
+	for (Node* src : m_graph->m_list)
+	{
+		for (Node* dest : m_graph->m_list)
+		{
+			float distance = src->pos.distance(dest->pos);
+
+			if (distance <= padding + (padding / 2) && src != dest)
+			{
+				m_graph->ConnectNodes(src, dest, distance);
+				m_graph->ConnectNodes(dest, src, distance);
+			}
+		}
+	}
+
+	/*Node *b = m_graph->AddNode(Vector2(150 * graphScale, 100 * graphScale));
 	Node *c = m_graph->AddNode(Vector2(200 * graphScale, 100 * graphScale));
 	Node *d = m_graph->AddNode(Vector2(150 * graphScale, 150 * graphScale));
 	Node *e = m_graph->AddNode(Vector2(100 * graphScale, 200 * graphScale));
@@ -60,7 +89,6 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph->ConnectNodes(d, c, d->pos.distance(c->pos)); 
 	m_graph->ConnectNodes(d, b, d->pos.distance(b->pos)); 
 	m_graph->ConnectNodes(d, h, d->pos.distance(h->pos)); 
-	//m_graph->ConnectNodes(h, d, d->pos.distance(h->pos));
 	m_graph->ConnectNodes(d, e, d->pos.distance(e->pos)); 
 	m_graph->ConnectNodes(d, f, d->pos.distance(f->pos)); 
 	m_graph->ConnectNodes(d, g, d->pos.distance(g->pos)); 
@@ -69,7 +97,7 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	m_graph->ConnectNodes(h, k, h->pos.distance(k->pos));
 
 	m_graph->ConnectNodes(h, g, h->pos.distance(g->pos));
-	m_graph->ConnectNodes(g, d, g->pos.distance(d->pos));
+	m_graph->ConnectNodes(g, d, g->pos.distance(d->pos));*/
 
 	
 //	agent->addBehaviourList(new KeyboardController());
@@ -82,18 +110,27 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 	agentList.push_back(enemy);
 
 	{
+	
 		Selector* behaviourRoot = new Selector();
-
-
+		Sequence* isChaseMode = new Sequence();
+		BehaviourState* checkForChase = new BehaviourState(Run);
 		Sequence* fleeRoot = new Sequence();
-		Flee* fleeTarget = new Flee(agent, m_graph);
+		Flee* findTargetFlee = new Flee(enemy, m_graph);
+		FollowPath* FleeFollow = new FollowPath();
 		agent->addBehaviourList(behaviourRoot);
-		agent->addBehaviourList(behaviourRoot);
+
 		behaviourRoot->addChild(fleeRoot);
-		fleeRoot->addChild(fleeTarget);
+
+		isChaseMode->addChild(checkForChase);
+		isChaseMode->addChild(fleeRoot);
+
+		fleeRoot->addChild(findTargetFlee);
+		fleeRoot->addChild(FleeFollow);
 	}
 	
 	{
+		//working *
+
 		Selector* behaviourRoot = new Selector();
 		Sequence* isChaseMode = new Sequence();
 		BehaviourState* checkForChase = new BehaviourState(Chase);
@@ -101,7 +138,6 @@ GraphDemo::GraphDemo(unsigned int windowWidth, unsigned int windowHeight, bool f
 		FindPath* findTarget = new FindPath(agent, m_graph);
 		FollowPath* followTarget = new FollowPath();
 	
-
 		enemy->addBehaviourList(behaviourRoot);
 
 		behaviourRoot->addChild(isChaseMode);
@@ -137,48 +173,48 @@ GraphDemo::~GraphDemo()
 
 void GraphDemo::Update(float deltaTime)
 {
-	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_I))
-	{	
-		if (sNode && eNode)
-		{
-			for (auto & node : m_graph->m_list)
-			{
-				node->parent = nullptr;
-				node->gScore = std::numeric_limits<float>::max();
-				node->hScore = 0;
-				node->fScore = 0;
-			}
-			thepath->FindPathDijkstras(sNode, eNode, outPut);
-		}
-		std::cout << "Dijkstras" << std::endl;
-	}
+	//if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_I))
+	//{	
+	//	if (sNode && eNode)
+	//	{
+	//		for (auto & node : m_graph->m_list)
+	//		{
+	//			node->parent = nullptr;
+	//			node->gScore = std::numeric_limits<float>::max();
+	//			node->hScore = 0;
+	//			node->fScore = 0;
+	//		}
+	//		thepath->FindPathDijkstras(sNode, eNode, outPut);
+	//	}
+	//	std::cout << "Dijkstras" << std::endl;
+	//}
 
 	//enemy->update(outPut, deltaTime);
 	
-	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
-	{
-		if (sNode && eNode)
-		{
-			for (auto & node : m_graph->m_list)
-			{
-				node->parent = nullptr;
-				node->gScore = std::numeric_limits<float>::max();
-				node->hScore = 0;
-				node->fScore = 0;
-			}
-			thepath->AStar(sNode, eNode, outPut);
-			agent->path = outPut;
-		}
-			std::cout << "AStar" << std::endl;
-	}
+	//if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_O))
+	//{
+	//	if (sNode && eNode)
+	//	{
+	//		for (auto & node : m_graph->m_list)
+	//		{
+	//			node->parent = nullptr;
+	//			node->gScore = std::numeric_limits<float>::max();
+	//			node->hScore = 0;
+	//			node->fScore = 0;
+	//		}
+	//		thepath->AStar(sNode, eNode, outPut);
+	//		agent->path = outPut;
+	//	}
+	//		std::cout << "AStar" << std::endl;
+	//}
 
-	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_P))
-	{
-		std::cout << "Reset" << std::endl;
-		sNode = nullptr;
-		eNode = nullptr;
-		outPut.clear();
-	}
+	//if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_P))
+	//{
+	//	std::cout << "Reset" << std::endl;
+	//	sNode = nullptr;
+	//	eNode = nullptr;
+	//	outPut.clear();
+	//}
 	
 	if (Input::GetSingleton()->IsKeyDown(GLFW_KEY_3))
 	{

@@ -22,5 +22,9 @@ BehaviourResult BehaviourState::update(Agent * pAgent, float deltatime)
 	{
 		return Success;
 	}
+	else
+	{
+
+	}
 	return Failure;
 }

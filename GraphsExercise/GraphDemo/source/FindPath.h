@@ -17,7 +17,7 @@ protected:
 	Agent* m_target;
 	Graph* m_graph;
 
-	Pathfinder* m_pathFinder = new Pathfinder();	
+	Pathfinder* m_pathFinder;	
 
 	Node* findNearestNodeToAgent(Agent* a);
 };
